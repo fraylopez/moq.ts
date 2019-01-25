@@ -27,7 +27,7 @@ export class DefinedSetups<T> {
         return undefined;
     }
 
-    public hasNamedMethod(name: string): boolean {
+    public hasNamedMethod(name: PropertyKey): boolean {
         for (const [key] of this.setups) {
             if (key instanceof ExpectedNamedMethodExpression && (key as ExpectedNamedMethodExpression).name === name) {
                 return true;
@@ -35,5 +35,9 @@ export class DefinedSetups<T> {
         }
 
         return false;
+    }
+
+    public hasSetupFor(expression: Expressions): boolean {
+        throw new Error("Not Implemented");
     }
 }
