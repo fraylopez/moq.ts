@@ -1,22 +1,22 @@
 import { DefinedSetups } from "../defined-setups";
 import { Tracker } from "../tracker";
 import { nameof } from "../nameof";
-import { GetInterceptor } from "./get.interceptor";
+import { GetTrap } from "./get.trap";
 import { GetPropertyExpression } from "../expressions";
-import { PropertyValuesStorage } from "./property-values.storage";
+import { PropertiesValueStorage } from "./properties-value.storage";
 import { PresetExpressionResult } from "./preset-expression.result";
 import { SpyFunctionProvider } from "./spy-function.provider";
 
-describe("Get Interceptor", () => {
+describe("Get trap", () => {
 
     let definedSetups: DefinedSetups<any>;
     let tracker: Tracker;
-    let storage: PropertyValuesStorage;
+    let storage: PropertiesValueStorage;
     let presetExpressionResult: PresetExpressionResult;
     let spyFunctionProvider: SpyFunctionProvider;
 
     function trackerFactory(): Tracker {
-        return <Tracker>jasmine.createSpyObj("tracker", [
+        return <Tracker>jasmine.createSpyObj<Tracker>("tracker", [
             nameof<Tracker>("add"),
             nameof<Tracker>("get")
         ]);
@@ -34,10 +34,10 @@ describe("Get Interceptor", () => {
         ]);
     }
 
-    function propertyValuesStorage(): PropertyValuesStorage {
-        return <PropertyValuesStorage>jasmine.createSpyObj("property values storage", [
-            nameof<PropertyValuesStorage>("has"),
-            nameof<PropertyValuesStorage>("get")
+    function propertyValuesStorage(): PropertiesValueStorage {
+        return <PropertiesValueStorage>jasmine.createSpyObj("property values storage", [
+            nameof<PropertiesValueStorage>("has"),
+            nameof<PropertiesValueStorage>("get")
         ]);
     }
 
@@ -50,13 +50,13 @@ describe("Get Interceptor", () => {
         ]);
     }
 
-    function interceptorFactory(): GetInterceptor {
+    function interceptorFactory(): GetTrap {
         tracker = trackerFactory();
         storage = propertyValuesStorage();
         definedSetups = definedSetupsFactory();
         presetExpressionResult = presetExpressionResultFactory();
         spyFunctionProvider = spyFunctionProviderFactory();
-        return new GetInterceptor(storage, tracker, presetExpressionResult, definedSetups, spyFunctionProvider);
+        return new GetTrap(storage, tracker, presetExpressionResult, definedSetups, spyFunctionProvider);
     }
 
     it("Tracks get property call", () => {

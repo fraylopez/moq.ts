@@ -1,4 +1,4 @@
-export class PropertyValuesStorage {
+export class PropertiesValueStorage {
 
     public has(property: PropertyKey): boolean {
         throw new Error("Not Implemented");
