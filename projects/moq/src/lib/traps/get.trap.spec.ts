@@ -1,4 +1,3 @@
-import { DefinedSetups } from "../defined-setups";
 import { Tracker } from "../tracker";
 import { nameof } from "../nameof";
 import { GetTrap } from "./get.trap";
@@ -6,10 +5,11 @@ import { GetPropertyExpression } from "../expressions";
 import { PropertiesValueStorage } from "./properties-value.storage";
 import { PresetExpressionResult } from "./preset-expression.result";
 import { SpyFunctionProvider } from "./spy-function.provider";
+import { Preset } from "../preset/preset";
 
 describe("Get trap", () => {
 
-    let definedSetups: DefinedSetups<any>;
+    let preset: Preset<any>;
     let tracker: Tracker;
     let storage: PropertiesValueStorage;
     let presetExpressionResult: PresetExpressionResult;
@@ -41,22 +41,22 @@ describe("Get trap", () => {
         ]);
     }
 
-    function definedSetupsFactory(): DefinedSetups<any> {
-        return <DefinedSetups<any>>jasmine.createSpyObj("definedSetups", [
-            nameof<DefinedSetups<any>>("add"),
-            nameof<DefinedSetups<any>>("get"),
-            nameof<DefinedSetups<any>>("hasNamedMethod"),
-            nameof<DefinedSetups<any>>("hasSetupFor")
+    function presetFactory(): Preset<any> {
+        return <Preset<any>>jasmine.createSpyObj("preset", [
+            nameof<Preset<any>>("add"),
+            nameof<Preset<any>>("get"),
+            nameof<Preset<any>>("hasNamedMethod"),
+            nameof<Preset<any>>("hasSetupFor")
         ]);
     }
 
     function interceptorFactory(): GetTrap {
         tracker = trackerFactory();
         storage = propertyValuesStorage();
-        definedSetups = definedSetupsFactory();
+        preset = presetFactory();
         presetExpressionResult = presetExpressionResultFactory();
         spyFunctionProvider = spyFunctionProviderFactory();
-        return new GetTrap(storage, tracker, presetExpressionResult, definedSetups, spyFunctionProvider);
+        return new GetTrap(storage, tracker, presetExpressionResult, preset, spyFunctionProvider);
     }
 
     it("Tracks get property call", () => {
@@ -87,7 +87,7 @@ describe("Get trap", () => {
 
         const interceptor = interceptorFactory();
         (storage.has as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
-        (definedSetups.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(true);
+        (preset.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(true);
         (presetExpressionResult.invoke as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(arg);
 
         const actual = interceptor.intercept(propertyName);
@@ -101,8 +101,8 @@ describe("Get trap", () => {
 
         const interceptor = interceptorFactory();
         (storage.has as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
-        (definedSetups.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
-        (definedSetups.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(true);
+        (preset.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
+        (preset.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(true);
         (spyFunctionProvider.get as jasmine.Spy).and.returnValue(spy);
 
         const actual = interceptor.intercept(propertyName);
@@ -122,8 +122,8 @@ describe("Get trap", () => {
 
         const interceptor = interceptorFactory();
         (storage.has as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
-        (definedSetups.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
-        (definedSetups.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
+        (preset.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
+        (preset.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
         (spyFunctionProvider.get as jasmine.Spy).and.returnValue(spy);
 
         interceptor.prototypeof(Prototype.prototype);
@@ -142,8 +142,8 @@ describe("Get trap", () => {
 
         const interceptor = interceptorFactory();
         (storage.has as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
-        (definedSetups.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
-        (definedSetups.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
+        (preset.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
+        (preset.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
         (spyFunctionProvider.get as jasmine.Spy).and.returnValue(spy);
 
         interceptor.prototypeof(new Prototype());
@@ -161,8 +161,8 @@ describe("Get trap", () => {
 
         const interceptor = interceptorFactory();
         (storage.has as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
-        (definedSetups.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
-        (definedSetups.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
+        (preset.hasSetupFor as jasmine.Spy).withArgs(new GetPropertyExpression(propertyName)).and.returnValue(false);
+        (preset.hasNamedMethod as jasmine.Spy).withArgs(propertyName).and.returnValue(false);
         (spyFunctionProvider.get as jasmine.Spy).and.returnValue(spy);
 
         interceptor.prototypeof(Prototype.prototype);

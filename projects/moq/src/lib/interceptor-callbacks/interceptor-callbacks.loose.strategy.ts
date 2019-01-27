@@ -1,4 +1,4 @@
-import { Preset } from "../preset";
+import { Preset } from "../preset/preset";
 import {
     Expressions,
     GetPropertyExpression,

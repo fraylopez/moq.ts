@@ -2,8 +2,8 @@ import { Tracker } from "../tracker";
 import { GetPropertyExpression } from "../expressions";
 import { PropertiesValueStorage } from "./properties-value.storage";
 import { PresetExpressionResult } from "./preset-expression.result";
-import { DefinedSetups } from "../defined-setups";
 import { SpyFunctionProvider } from "./spy-function.provider";
+import { Preset } from "../preset/preset";
 
 /**
  * @hidden
@@ -15,7 +15,7 @@ export class GetTrap {
         private propertiesValueStorage: PropertiesValueStorage,
         private tracker: Tracker,
         private presetExpressionResult: PresetExpressionResult,
-        private definedSetups: DefinedSetups<any>,
+        private preset: Preset<any>,
         private spyFunctionProvider: SpyFunctionProvider) {
 
     }
@@ -29,11 +29,11 @@ export class GetTrap {
             return this.propertiesValueStorage.get(property);
         }
 
-        if (this.definedSetups.hasSetupFor(expression)) {
+        if (this.preset.hasSetupFor(expression)) {
             return this.presetExpressionResult.invoke(expression);
         }
 
-        if (this.definedSetups.hasNamedMethod(property)) {
+        if (this.preset.hasNamedMethod(property)) {
             return this.spyFunctionProvider.get();
         }
 

@@ -1,7 +1,7 @@
-import { ExpectedExpressions, ExpectedNamedMethodExpression } from "./expected-expressions/expected-expressions";
-import { ExpressionMatcher } from "./expression-matchers/expression-matcher";
-import { Expressions } from "./expressions";
-import { ISetupInvoke } from "./moq";
+import { ExpectedExpressions, ExpectedNamedMethodExpression } from "../expected-expressions/expected-expressions";
+import { ExpressionMatcher } from "../expression-matchers/expression-matcher";
+import { Expressions } from "../expressions";
+import { ISetupInvoke } from "../moq";
 
 /**
  * @hidden

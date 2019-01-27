@@ -1,4 +1,4 @@
-import { IMock, ISetup, ISetupInvoke } from "./moq";
+import { IMock, ISetup, ISetupInvoke } from "../moq";
 
 /**
  * The default implementation of {@link ISetup} interface.

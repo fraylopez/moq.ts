@@ -1,4 +1,4 @@
-import { IMock } from "./moq";
+import { IMock } from "../moq";
 import { Setup } from "./setup";
 
 describe("Setup", () => {

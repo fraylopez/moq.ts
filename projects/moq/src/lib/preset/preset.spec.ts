@@ -3,9 +3,9 @@ import {
     ExpectedExpressions,
     ExpectedGetPropertyExpression,
     ExpectedNamedMethodExpression
-} from "./expected-expressions/expected-expressions";
-import { ExpressionMatcher } from "./expression-matchers/expression-matcher";
-import { Expressions, GetPropertyExpression } from "./expressions";
+} from "../expected-expressions/expected-expressions";
+import { ExpressionMatcher } from "../expression-matchers/expression-matcher";
+import { Expressions, GetPropertyExpression } from "../expressions";
 import { Setup } from "./setup";
 
 describe("List of defined setup", () => {
